@@ -12,13 +12,17 @@ root.title("Image Editor")
 #Frames defined
 image_frame = LabelFrame(root, padx = 10, pady = 10)        # frame where image is placed
 image_frame.place(relx = 0.3, rely = 0.5, anchor= CENTER)
+#image_frame.place(relx = 0.7, rely = 0.7, anchor= CENTER)
 colour_change_frame = LabelFrame(root, text = "Image Editor", padx = 10, pady = 10)
-colour_change_frame.place(relx = 0.85, rely = 0.4, anchor = NE)
+colour_change_frame.place(relx = 0.85, rely = 0.5, anchor = NE)
 
+size_x=650
+size_y=650
 
 my_img = Image.open("Images/cat.png")
-my_img = my_img.resize((500,450))
-img_tk = ImageTk.PhotoImage(my_img.resize((500,450)))
+#my_img = my_img.resize((500,450))
+my_img = my_img.resize((size_x,size_x))
+img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
 image_show = Label(image_frame, image = img_tk)
 image_show.pack()
 
@@ -38,11 +42,11 @@ def openImage():
 	)	
 
 	image_show.pack_forget()
-	# filename = filedialog.askopenfile(initialdir="C:/Users/patel/gui/Images/", title="Select an Image", filetypes=filetypes)
+	# filename = filedialog.askopenfile(initialdir="/Users/patel/gui/Images/", title="Select an Image", filetypes=filetypes)
 	filename = "Images/dog.png"
 	my_img = Image.open(filename)
-	my_img = my_img.resize((500,450))
-	img_tk = ImageTk.PhotoImage(my_img.resize((500,450)))
+	my_img = my_img.resize((size_x,size_x))
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
 	image_show = Label(image_frame, image = img_tk)
 	image_show.pack()
 
@@ -52,6 +56,73 @@ def saveImage():
 
     filename = filedialog.asksaveasfilename(initialdir= "/Images", title = "Save an Image", filetypes=(("png image", "*.png"), ("jpg image", "*.jpg")), defaultextension=(".png"))
     my_img.save(filename)
+
+def bwImage():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.convert("L")
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def flipH():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def flipV():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
+	my_img = my_img.transpose(Image.FLIP_TOP_BOTTOM)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def rotateL():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.transpose(Image.ROTATE_90)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+def rotateR():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.transpose(Image.ROTATE_270)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+
+
+
+
+
+
     
 
 
@@ -61,20 +132,23 @@ button1.place(relx=0.0,rely=0.0)
 button2=Button(root,text="Save File", command = saveImage)
 button2.place(relx=0.05,rely=0.0)
 
-button3=Button(root,text="Change to black and white")
+button3=Button(root,text="Change to black and white", command= bwImage)
 button3.place(relx=0.85,rely=0.1)
+
 button4=Button(root,text="Select area to crop")
 button4.place(relx=0.8,rely=0.2)
 button5=Button(root,text="Apply crop")
 button5.place(relx=0.9,rely=0.2)
-button6=Button(root,text="Flip Horizontally")
+
+button6=Button(root,text="Flip Horizontally", command=flipH)
 button6.place(relx=0.8,rely=0.3)
-button7=Button(root,text="Flip vertically")
+button7=Button(root,text="Flip vertically", command=flipV)
 button7.place(relx=0.9,rely=0.3)
-button8=Button(root,text="Rotate left")
+button8=Button(root,text="Rotate left", command=rotateL)
 button8.place(relx=0.8,rely=0.4)
-button9=Button(root,text="Rotate right")
+button9=Button(root,text="Rotate right", command=rotateR)
 button9.place(relx=0.9,rely=0.4)
+
 button10=Button(root,text="Apply Saturation")
 button10.place(relx=0.9,rely=0.5)
 button11=Button(root,text="Apply Sharpness")
@@ -83,6 +157,7 @@ button12=Button(root,text="Apply Exposure")
 button12.place(relx=0.9,rely=0.6)
 button13=Button(root,text="Apply Contrast")
 button13.place(relx=0.9,rely=0.65)
+
 button14=Button(root,text="Highlight Border")
 button14.place(relx=0.85,rely=0.7)
 button15=Button(root,text="Insert Text")
