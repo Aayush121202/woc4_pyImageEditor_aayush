@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
-from PIL import ImageTk, Image, ImageEnhance
+from PIL import ImageTk, Image, ImageEnhance, ImageFilter
+from PIL.ImageFilter import CONTOUR
 
 root= Tk()
 root.geometry("1800x800")
@@ -168,6 +169,16 @@ def Contrast():
 	image_show.pack()
 
 
+def Contour():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.filter(CONTOUR)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
 
 
 """
@@ -245,13 +256,13 @@ button12.place(relx=0.9,rely=0.6)
 button13=Button(root,text="Apply Contrast", command=Contrast)
 button13.place(relx=0.9,rely=0.65)
 
-button14=Button(root,text="Highlight Border")
-button14.place(relx=0.85,rely=0.7)
+button14=Button(root,text="Contour Image", command=Contour)
+button14.place(relx=0.85,rely=0.75)
 button15=Button(root,text="Insert Text")
 button15.place(relx=0.8,rely=0.85)
 button16=Button(root,text="Fix Position")
 button16.place(relx=0.9,rely=0.85)
-label=Label(root)
-label.place(relx=0.9,rely=0.8)
+label=Label(root, relief=SUNKEN, width=40)
+label.place(relx=0.8,rely=0.8)
 
 root.mainloop()
