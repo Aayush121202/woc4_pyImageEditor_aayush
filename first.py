@@ -1,11 +1,66 @@
 from tkinter import *
+from tkinter import filedialog
+from PIL import ImageTk, Image
+
 root= Tk()
 root.geometry("1800x800")
+root.title("Image Editor")
 
-button1=Button(root,text="Open File")
+# canvas = Canvas(root, width=800, height=500)
+# canvas.pack()
+
+#Frames defined
+image_frame = LabelFrame(root, padx = 10, pady = 10)        # frame where image is placed
+image_frame.place(relx = 0.3, rely = 0.5, anchor= CENTER)
+colour_change_frame = LabelFrame(root, text = "Image Editor", padx = 10, pady = 10)
+colour_change_frame.place(relx = 0.85, rely = 0.4, anchor = NE)
+
+
+my_img = Image.open("Images/cat.png")
+my_img = my_img.resize((500,450))
+img_tk = ImageTk.PhotoImage(my_img.resize((500,450)))
+image_show = Label(image_frame, image = img_tk)
+image_show.pack()
+
+
+def openImage():
+	global my_img
+	global image_show
+	global img_tk
+	
+	filetypes = (
+		('All Picture Files', ['*.png', '*.jpg', '*.jpeg', '*.bmp']),
+		('JPEG (*.jpeg)', '*.jpeg'),
+		('JPG (*.jpg)', '*.jpg'),
+		('PNG (*.png)', '*.png'),
+		('BMP (*.bmp)', '*.bmp'),
+		('All Files', '*.*')
+	)	
+
+	image_show.pack_forget()
+	# filename = filedialog.askopenfile(initialdir="C:/Users/patel/gui/Images/", title="Select an Image", filetypes=filetypes)
+	filename = "Images/dog.png"
+	my_img = Image.open(filename)
+	my_img = my_img.resize((500,450))
+	img_tk = ImageTk.PhotoImage(my_img.resize((500,450)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def saveImage():
+    global my_img
+
+    filename = filedialog.asksaveasfilename(initialdir= "/Images", title = "Save an Image", filetypes=(("png image", "*.png"), ("jpg image", "*.jpg")), defaultextension=(".png"))
+    my_img.save(filename)
+    
+
+
+button1=Button(root,text="Open File", command = openImage)
 button1.place(relx=0.0,rely=0.0)
-button2=Button(root,text="Save File")
+
+button2=Button(root,text="Save File", command = saveImage)
 button2.place(relx=0.05,rely=0.0)
+
 button3=Button(root,text="Change to black and white")
 button3.place(relx=0.85,rely=0.1)
 button4=Button(root,text="Select area to crop")
