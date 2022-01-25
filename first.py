@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from PIL import ImageTk, Image
+from PIL import ImageTk, Image, ImageEnhance
 
 root= Tk()
 root.geometry("1800x800")
@@ -68,7 +68,6 @@ def bwImage():
 	image_show = Label(image_frame, image = img_tk)
 	image_show.pack()
 
-
 def flipH():
 	global my_img
 	global image_show
@@ -117,22 +116,93 @@ def rotateR():
 	image_show.pack()
 
 
+def Saturation():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	converter = ImageEnhance.Color(my_img)
+	tmp_img = converter.enhance(scale1.get())
+	img_tk = ImageTk.PhotoImage(tmp_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def Sharpness():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	converter = ImageEnhance.Sharpness(my_img)
+	tmp_img = converter.enhance(scale2.get())
+	img_tk = ImageTk.PhotoImage(tmp_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def Brightness():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	converter = ImageEnhance.Brightness(my_img)
+	tmp_img = converter.enhance(scale3.get())
+	img_tk = ImageTk.PhotoImage(tmp_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def Contrast():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	converter = ImageEnhance.Contrast(my_img)
+	tmp_img = converter.enhance(scale4.get())
+	img_tk = ImageTk.PhotoImage(tmp_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
 
 
 
 
+"""
 
+def flipImage(opt):
+	global my_img
+	global image_show
+	global img_tk
 
+	if opt == 1:
+		my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
+	elif opt == 2:
+		my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
+		my_img = my_img.transpose(Image.FLIP_TOP_BOTTOM)
+	elif opt == 3:
+		my_img = my_img.transpose(Image.ROTATE_90)
+	elif opt == 4:
+		my_img = my_img.transpose(Image.ROTATE_270)
+
+	image_show.pack_forget()
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+"""
     
 
 
-button1=Button(root,text="Open File", command = openImage)
+button1=Button(root,text="Open File", command=openImage)
 button1.place(relx=0.0,rely=0.0)
 
-button2=Button(root,text="Save File", command = saveImage)
+button2=Button(root,text="Save File", command=saveImage)
 button2.place(relx=0.05,rely=0.0)
 
-button3=Button(root,text="Change to black and white", command= bwImage)
+button3=Button(root,text="Change to black and white", command=bwImage)
 button3.place(relx=0.85,rely=0.1)
 
 button4=Button(root,text="Select area to crop")
@@ -149,13 +219,30 @@ button8.place(relx=0.8,rely=0.4)
 button9=Button(root,text="Rotate right", command=rotateR)
 button9.place(relx=0.9,rely=0.4)
 
-button10=Button(root,text="Apply Saturation")
+scale1=Scale(root, from_=0, to=2, resolution=0.2, orient=HORIZONTAL)
+scale1.set(1)
+scale1.place(relx=0.8,rely=0.5)
+
+scale2=Scale(root, from_=-3, to=5,resolution=0.2, orient=HORIZONTAL)
+scale2.set(1)
+scale2.place(relx=0.8,rely=0.55)
+
+
+scale3=Scale(root, from_=0, to=2, resolution=0.2, orient=HORIZONTAL)
+scale3.set(1)
+scale3.place(relx=0.8,rely=0.6)
+
+scale4=Scale(root, from_=-2, to=3, resolution=0.2, orient=HORIZONTAL)
+scale4.set(1)
+scale4.place(relx=0.8,rely=0.65)
+
+button10=Button(root,text="Apply Saturation", command=Saturation)
 button10.place(relx=0.9,rely=0.5)
-button11=Button(root,text="Apply Sharpness")
+button11=Button(root,text="Apply Sharpness", command=Sharpness)
 button11.place(relx=0.9,rely=0.55)
-button12=Button(root,text="Apply Exposure")
+button12=Button(root,text="Apply Brightness", command=Brightness)
 button12.place(relx=0.9,rely=0.6)
-button13=Button(root,text="Apply Contrast")
+button13=Button(root,text="Apply Contrast", command=Contrast)
 button13.place(relx=0.9,rely=0.65)
 
 button14=Button(root,text="Highlight Border")
@@ -166,12 +253,5 @@ button16=Button(root,text="Fix Position")
 button16.place(relx=0.9,rely=0.85)
 label=Label(root)
 label.place(relx=0.9,rely=0.8)
-scale1=Scale(root, from_=1, to=50,orient=HORIZONTAL)
-scale1.place(relx=0.8,rely=0.5)
-scale2=Scale(root, from_=1, to=50,orient=HORIZONTAL)
-scale2.place(relx=0.8,rely=0.55)
-scale3=Scale(root, from_=1, to=50,orient=HORIZONTAL)
-scale3.place(relx=0.8,rely=0.6)
-scale4=Scale(root, from_=1, to=50,orient=HORIZONTAL)
-scale4.place(relx=0.8,rely=0.65)
+
 root.mainloop()
