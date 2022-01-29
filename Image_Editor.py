@@ -43,9 +43,9 @@ def openImage():
 	)	
 
 	image_show.pack_forget()
-	# filename = filedialog.askopenfile(initialdir="/Users/patel/gui/Images/", title="Select an Image", filetypes=filetypes)
-	filename = "Images/dog.png"
-	my_img = Image.open(filename)
+	filename = filedialog.askopenfile(initialdir="/Images", title="Select an Image", filetypes=filetypes)
+	# filename = "Images/dog.png"
+	my_img = Image.open(filename.name)
 	my_img = my_img.resize((size_x,size_x))
 	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
 	image_show = Label(image_frame, image = img_tk)
