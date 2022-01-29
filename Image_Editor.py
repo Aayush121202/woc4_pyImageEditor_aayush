@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image, ImageEnhance, ImageFilter
-from PIL.ImageFilter import CONTOUR
+from PIL.ImageFilter import CONTOUR, EMBOSS
 
 root= Tk()
 root.geometry("1800x800")
@@ -181,6 +181,38 @@ def Contour():
 	image_show.pack()
 
 
+
+def Emboss():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.filter(EMBOSS)
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+def Resize():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+#	my_img = my_img.resize((round(my_img.size[0]*0.5), round(my_img.size[1]*0.5)))
+	img_tk = ImageTk.PhotoImage(my_img.resize((round(my_img.size[0]*0.5), round(my_img.size[1]*0.5))))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+
+
+
+
+
+
+
+
 """
 
 def flipImage(opt):
@@ -214,7 +246,9 @@ button2=Button(root,text="Save File", command=saveImage)
 button2.place(relx=0.05,rely=0.0)
 
 button3=Button(root,text="Change to black and white", command=bwImage)
-button3.place(relx=0.85,rely=0.1)
+button3.place(relx=0.8,rely=0.1)
+button18=Button(root,text="Resize image", command=Resize)
+button18.place(relx=0.9,rely=0.1)
 
 button4=Button(root,text="Select area to crop")
 button4.place(relx=0.8,rely=0.2)
@@ -257,12 +291,17 @@ button13=Button(root,text="Apply Contrast", command=Contrast)
 button13.place(relx=0.9,rely=0.65)
 
 button14=Button(root,text="Contour Image", command=Contour)
-button14.place(relx=0.85,rely=0.75)
-button15=Button(root,text="Insert Text")
-button15.place(relx=0.8,rely=0.85)
-button16=Button(root,text="Fix Position")
-button16.place(relx=0.9,rely=0.85)
-label=Label(root, relief=SUNKEN, width=40)
+button14.place(relx=0.8,rely=0.75)
+button15=Button(root,text="Emboss Image", command=Emboss)
+button15.place(relx=0.9,rely=0.75)
+
+
+button16=Button(root,text="Insert Text")
+button16.place(relx=0.8,rely=0.85)
+button17=Button(root,text="Fix Position")
+button17.place(relx=0.9,rely=0.85)
+
+label=Entry(root, relief=SUNKEN, width=40)
 label.place(relx=0.8,rely=0.8)
 
 root.mainloop()
