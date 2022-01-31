@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from PIL import ImageTk, Image, ImageEnhance, ImageFilter
+from PIL import ImageTk, Image, ImageEnhance, ImageFilter, ImageFont, ImageDraw
 from PIL.ImageFilter import CONTOUR, EMBOSS
 
 root= Tk()
@@ -200,43 +200,38 @@ def Resize():
 	global img_tk
 
 	image_show.pack_forget()
-#	my_img = my_img.resize((round(my_img.size[0]*0.5), round(my_img.size[1]*0.5)))
 	img_tk = ImageTk.PhotoImage(my_img.resize((round(my_img.size[0]*0.5), round(my_img.size[1]*0.5))))
 	image_show = Label(image_frame, image = img_tk)
 	image_show.pack()
 
 
-
-
-
-
-
-
-
-"""
-
-def flipImage(opt):
+def addText():
 	global my_img
 	global image_show
 	global img_tk
 
-	if opt == 1:
-		my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
-	elif opt == 2:
-		my_img = my_img.transpose(Image.FLIP_LEFT_RIGHT)
-		my_img = my_img.transpose(Image.FLIP_TOP_BOTTOM)
-	elif opt == 3:
-		my_img = my_img.transpose(Image.ROTATE_90)
-	elif opt == 4:
-		my_img = my_img.transpose(Image.ROTATE_270)
-
 	image_show.pack_forget()
+	text_font=ImageFont.truetype("arial.ttf", size=35)
+	text_to_add=entry.get()
+	draw_img=ImageDraw.Draw(my_img)
+	draw_img.text((150, 600), text_to_add, ("red"), font=text_font)
 	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
 	image_show = Label(image_frame, image = img_tk)
 	image_show.pack()
 
-"""
-    
+
+def Crop():
+	global my_img
+	global image_show
+	global img_tk
+
+	image_show.pack_forget()
+	my_img = my_img.crop((200,200,500,500))
+	img_tk = ImageTk.PhotoImage(my_img.resize((size_x,size_x)))
+	image_show = Label(image_frame, image = img_tk)
+	image_show.pack()
+
+	
 
 
 button1=Button(root,text="Open File", command=openImage)
@@ -250,10 +245,8 @@ button3.place(relx=0.8,rely=0.1)
 button18=Button(root,text="Resize image", command=Resize)
 button18.place(relx=0.9,rely=0.1)
 
-button4=Button(root,text="Select area to crop")
-button4.place(relx=0.8,rely=0.2)
-button5=Button(root,text="Apply crop")
-button5.place(relx=0.9,rely=0.2)
+button5=Button(root,text="Apply crop", command=Crop)
+button5.place(relx=0.85,rely=0.2)
 
 button6=Button(root,text="Flip Horizontally", command=flipH)
 button6.place(relx=0.8,rely=0.3)
@@ -295,13 +288,14 @@ button14.place(relx=0.8,rely=0.75)
 button15=Button(root,text="Emboss Image", command=Emboss)
 button15.place(relx=0.9,rely=0.75)
 
+entry=Entry(root, relief=SUNKEN, width=40)
+entry.place(relx=0.8,rely=0.8)
 
-button16=Button(root,text="Insert Text")
-button16.place(relx=0.8,rely=0.85)
-button17=Button(root,text="Fix Position")
-button17.place(relx=0.9,rely=0.85)
 
-label=Entry(root, relief=SUNKEN, width=40)
-label.place(relx=0.8,rely=0.8)
+button16=Button(root,text="Insert Text", command=addText)
+button16.place(relx=0.85,rely=0.85)
+
+
+
 
 root.mainloop()
